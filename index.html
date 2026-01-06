@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    
+    <meta name="theme-color" content="#020617">
+    <meta name="color-scheme" content="dark">
+
     <title>තිලක් ජයසිංහ | Premium Science Education</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -15,6 +19,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { 
@@ -34,7 +39,7 @@
         }
     </script>
     <style>
-        /* FIX 1: Force width constraints for mobile browsers */
+        /* FIX: Ensure consistent base styles across all devices */
         html, body {
             width: 100%;
             overflow-x: hidden;
@@ -44,6 +49,7 @@
             font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
+            color-scheme: dark; 
         }
         
         .bg-grain {
@@ -79,17 +85,18 @@
         }
 
         .water-input { 
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); color: white; transition: all 0.3s ease; 
+            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white; transition: all 0.3s ease; 
         }
         .water-input:focus { 
-            background: rgba(6, 182, 212, 0.05); border-color: #06b6d4; outline: none; box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); 
+            background: rgba(6, 182, 212, 0.1); border-color: #06b6d4; outline: none; box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); 
         }
+        select, select option { background-color: #0f172a !important; color: white !important; }
 
         .glass-table-row { border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s; }
         .glass-table-row:hover { background: rgba(6, 182, 212, 0.05); }
         .hidden-row { display: none !important; }
 
-        /* --- MOBILE OPTIMIZED TABLE STYLES --- */
         @media (max-width: 768px) {
             #timetable-content table, #timetable-content thead, #timetable-content tbody, 
             #timetable-content th, #timetable-content td, #timetable-content tr { display: block; }
@@ -122,7 +129,6 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(6, 182, 212, 0.3); border-radius: 10px; }
         #nav-bubble { background: linear-gradient(90deg, rgba(6,182,212,0.2) 0%, rgba(59,130,246,0.2) 100%); border: 1px solid rgba(255,255,255,0.2); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-        select option { background-color: #020617; color: white; padding: 10px; }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-white">
@@ -143,14 +149,8 @@
                 <a href="#about" class="nav-item px-6 py-2 text-sm font-medium text-slate-400 hover:text-white transition duration-300 rounded-full" onclick="moveBubble(this)">අප ගැන</a>
                 <a href="#classes" class="nav-item px-6 py-2 text-sm font-medium text-slate-400 hover:text-white transition duration-300 rounded-full" onclick="moveBubble(this)">පන්ති</a>
                 
-                <button id="nav-login-btn" onclick="openLogin(this)" class="nav-item px-6 py-2 text-sm font-medium text-cyan-300 hover:text-white transition duration-300 rounded-full flex items-center gap-2">
+                <button type="button" id="nav-login-btn" onclick="openLogin(this)" class="nav-item px-6 py-2 text-sm font-medium text-cyan-300 hover:text-white transition duration-300 rounded-full flex items-center gap-2">
                     <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-
-                <button id="nav-announce-btn" onclick="openAnnouncement()" class="hidden nav-item px-4 py-2 text-slate-400 hover:text-white transition relative">
-                    <i class="fas fa-bullhorn text-lg"></i>
-                    <span id="announce-dot" class="absolute top-1 right-2 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping hidden"></span>
-                    <span id="announce-dot-static" class="absolute top-1 right-2 w-2.5 h-2.5 bg-red-500 rounded-full hidden"></span>
                 </button>
 
                 <div id="nav-user-profile" class="hidden flex items-center gap-4 pl-4">
@@ -165,7 +165,6 @@
 
             <button class="md:hidden relative z-10 text-white p-2" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars text-xl"></i>
-                <span id="mobile-menu-dot" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-ping hidden"></span>
             </button>
         </div>
     </nav>
@@ -173,11 +172,6 @@
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#020617]/95 backdrop-blur-xl transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8">
         <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white text-2xl"><i class="fas fa-times"></i></button>
         
-        <button id="mobile-announce-btn" onclick="toggleMobileMenu(); openAnnouncement()" class="hidden text-xl font-bold text-white flex items-center gap-3">
-            <i class="fas fa-bullhorn text-cyan-400"></i> Announcements
-            <span id="mobile-announce-dot" class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse hidden"></span>
-        </button>
-
         <a href="#about" onclick="toggleMobileMenu()" class="text-2xl font-bold text-white hover:text-cyan-400">අප ගැන</a>
         <a href="#classes" onclick="toggleMobileMenu()" class="text-2xl font-bold text-white hover:text-cyan-400">පන්ති</a>
         
@@ -198,6 +192,14 @@
         </div>
     </a>
 
+    <a href="https://whatsapp.com/channel/0029Vb6smrw6hENwOiAGjT0O" target="_blank" id="guest-wa-btn" class="fixed bottom-32 md:bottom-28 right-4 md:right-8 z-[9999] flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white px-4 py-2 md:px-5 md:py-3 rounded-full font-bold shadow-[0_0_30px_rgba(37,211,102,0.4)] hover:-translate-y-1 transition-all duration-300 border border-white/20 animate-float-slow group transform-gpu">
+        <i class="fab fa-whatsapp text-2xl md:text-3xl group-hover:rotate-12 transition-transform"></i>
+        <div class="text-left leading-tight">
+            <div class="text-[8px] md:text-[10px] text-white/80 uppercase tracking-wider font-bold">Official Channel</div>
+            <div class="text-xs md:text-sm font-bold">Join Now</div>
+        </div>
+    </a>
+
     <button onclick="openContact()" class="fixed bottom-16 md:bottom-8 right-4 md:right-8 z-[9999] flex items-center gap-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white px-4 py-2 md:px-5 md:py-3 rounded-full font-bold shadow-[0_0_30px_rgba(6,182,212,0.6)] hover:shadow-[0_0_40px_rgba(6,182,212,0.8)] hover:-translate-y-1 transition-all duration-300 border border-white/20 animate-pulse-slow group transform-gpu">
         <i class="fas fa-headset text-2xl md:text-3xl group-hover:rotate-12 transition-transform"></i>
         <div class="text-left leading-tight">
@@ -205,41 +207,6 @@
             <div class="text-xs md:text-sm font-bold">Contact Us</div>
         </div>
     </button>
-
-    <div id="announce-overlay" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300">
-        <div id="announce-content" class="relative liquid-glass w-full max-w-lg mx-4 rounded-[2rem] p-8 transform scale-90 opacity-0 border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.2)] max-h-[85vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeAnnouncement()" class="absolute top-5 right-6 text-slate-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-red-500/20 rounded-full mx-auto flex items-center justify-center mb-4 text-red-500 border border-red-500/50 animate-pulse"><i class="fas fa-bullhorn text-2xl"></i></div>
-                <h2 class="text-2xl font-bold text-white">Announcements</h2>
-                <p class="text-red-400 text-xs uppercase tracking-widest mt-1">Important Notices</p>
-            </div>
-            
-            <div id="announce-list-container" class="space-y-4">
-                <p class="text-center text-slate-500 text-sm">Loading...</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="admin-announce-overlay" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300">
-        <div id="admin-announce-content" class="relative liquid-glass w-full max-w-lg mx-4 rounded-[2rem] p-8 transform scale-90 opacity-0 border border-cyan-500/30 max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeAdminAnnouncement()" class="absolute top-5 right-6 text-slate-400 hover:text-white transition"><i class="fas fa-times text-xl"></i></button>
-            <h2 class="text-2xl font-bold text-white mb-6">Manage Announcements</h2>
-            
-            <div class="mb-8">
-                <label class="text-xs text-cyan-400 font-bold uppercase tracking-wider ml-1 mb-2 block">New Message</label>
-                <textarea id="new-announce-text" rows="3" class="water-input w-full px-4 py-3 rounded-xl text-sm mb-4" placeholder="Type announcement here..."></textarea>
-                <button onclick="publishAnnouncement()" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded-xl shadow-lg hover:scale-[1.02] transition">Publish Announcement</button>
-            </div>
-
-            <div class="border-t border-white/10 pt-6">
-                <h3 class="text-white font-bold mb-4 text-sm">Active Announcements</h3>
-                <div id="active-announce-list" class="space-y-3">
-                    <p class="text-slate-500 text-sm text-center">Loading...</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div id="contact-overlay" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300">
         <div id="contact-content" class="relative liquid-glass w-full max-w-sm mx-4 rounded-[2rem] p-8 transform scale-90 opacity-0 text-center border border-white/10 shadow-2xl">
@@ -292,14 +259,31 @@
 
     <div id="cred-overlay" class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/90 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300">
         <div id="cred-content" class="relative liquid-glass w-full max-w-sm mx-4 rounded-[2rem] p-10 transform scale-90 opacity-0 text-center border border-green-500/30 shadow-[0_0_100px_rgba(34,197,94,0.2)]">
-            <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-bounce"><i class="fas fa-check text-3xl text-white"></i></div>
-            <h2 class="text-3xl font-bold text-white mb-2">සාර්ථකයි!</h2>
-            <p class="text-slate-400 text-sm mb-8">ගිණුමට පිවිසීමට මෙම විස්තර භාවිතා කරන්න.</p>
-            <div class="space-y-3 mb-8">
-                <div class="bg-white/5 border border-white/10 rounded-xl p-3"><p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest mb-1">USERNAME</p><p id="cred-username" class="text-2xl font-mono text-white tracking-widest font-bold">--</p></div>
-                <div class="bg-white/5 border border-white/10 rounded-xl p-3"><p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest mb-1">PASSWORD</p><p id="cred-password" class="text-2xl font-mono text-white tracking-widest font-bold">--</p></div>
+            <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-bounce">
+                <i class="fas fa-check text-3xl text-white"></i>
             </div>
-            <button onclick="finalizeRegistration()" class="w-full bg-white text-black font-bold py-4 rounded-xl shadow-lg hover:bg-cyan-50 hover:scale-105 transition transform flex items-center justify-center gap-2">Go to WhatsApp <i class="fab fa-whatsapp text-lg"></i></button>
+            <h2 class="text-3xl font-bold text-white mb-6">සාර්ථකයි!</h2>
+            <div class="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-4 mb-8">
+                <p class="text-yellow-200 text-sm font-medium leading-relaxed">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    කරුණාකර මෙම විස්තර භාවිතා කර Login වන්න.<br><br>
+                    මෙම විස්තර ඔබ ලඟ සුරක්ෂිතව තබා ගන්න.
+                </p>
+            </div>
+            <div class="space-y-3 mb-8">
+                <div class="bg-white/5 border border-white/10 rounded-xl p-3">
+                    <p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest mb-1">USERNAME</p>
+                    <p id="cred-username" class="text-2xl font-mono text-white tracking-widest font-bold">--</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-xl p-3">
+                    <p class="text-[10px] text-cyan-400 uppercase font-bold tracking-widest mb-1">PASSWORD</p>
+                    <p id="cred-password" class="text-2xl font-mono text-white tracking-widest font-bold">--</p>
+                </div>
+            </div>
+            
+            <button onclick="finalizeRegistration()" class="w-full bg-white text-black font-bold py-4 rounded-xl shadow-lg hover:bg-cyan-50 hover:scale-105 transition transform flex items-center justify-center gap-2">
+                Go to WhatsApp <i class="fab fa-whatsapp text-lg"></i>
+            </button>
         </div>
     </div>
 
@@ -308,7 +292,7 @@
             <button onclick="closeLogin()" class="absolute top-6 right-6 text-slate-500 hover:text-white transition transform hover:rotate-90"><i class="fas fa-times text-xl"></i></button>
             <div class="text-center mb-8"><h2 class="text-3xl font-bold text-white">Welcome Back</h2><p class="text-cyan-300/70 text-sm mt-1">Access Your Dashboard</p></div>
             <form id="login-form" class="space-y-5" onsubmit="handleLogin(event)">
-                <div class="space-y-1"><label class="text-xs text-cyan-400 font-bold uppercase tracking-wider ml-1">Username</label><input id="login-username" type="text" placeholder="Phone + Grade" class="water-input w-full px-5 py-4 rounded-xl text-base md:text-sm" required></div>
+                <div class="space-y-1"><label class="text-xs text-cyan-400 font-bold uppercase tracking-wider ml-1">Username</label><input id="login-username" type="text" placeholder="Phone+grade" class="water-input w-full px-5 py-4 rounded-xl text-base md:text-sm" required></div>
                 <div class="space-y-1"><label class="text-xs text-cyan-400 font-bold uppercase tracking-wider ml-1">Password</label><input id="login-password" type="password" placeholder="•••••••" class="water-input w-full px-5 py-4 rounded-xl text-base md:text-sm" required></div>
                 <button type="submit" id="login-submit-btn" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold py-4 rounded-xl shadow-[0_10px_30px_-10px_rgba(6,182,212,0.6)] hover:scale-[1.02] transition">Login Securely</button>
             </form>
@@ -321,12 +305,11 @@
             <div class="text-center mb-8"><h2 class="text-3xl font-bold text-white mb-2">Class Schedule</h2><div class="w-16 h-1 bg-cyan-500 mx-auto rounded-full"></div></div>
             <div class="mb-6 flex justify-center">
                 <div class="relative w-full max-w-xs">
-                   <select id="timetable-filter" onchange="filterTimetable()" class="water-input w-full px-5 py-3 rounded-full text-center font-bold appearance-none bg-[#0f172a] cursor-pointer hover:border-cyan-500 transition text-base md:text-sm">
-                    <option value="all">Show All Classes</option>
-                    <option value="online">Online (Zoom)</option>
-                    <option value="physical">Physical (Pawara)</option>
-                    <option value="paper">Online Paper Class</option>
-                </select>
+                    <select id="timetable-filter" onchange="filterTimetable()" class="water-input w-full px-5 py-3 rounded-full text-center font-bold appearance-none bg-[#0f172a] cursor-pointer hover:border-cyan-500 transition text-base md:text-sm">
+                        <option value="all">Show All Classes</option>
+                        <option value="online">Online (Zoom)</option>
+                        <option value="physical">Physical (Pawara)</option>
+                    </select>
                     <div class="absolute right-4 top-1/2 -translate-y-1/2 text-cyan-400 pointer-events-none"><i class="fas fa-chevron-down"></i></div>
                 </div>
             </div>
@@ -334,13 +317,16 @@
                 <table class="w-full text-left text-sm text-slate-300">
                     <thead class="text-xs uppercase bg-white/5 text-cyan-400 font-bold"><tr><th class="px-6 py-4">Grade</th><th class="px-6 py-4">Mode</th><th class="px-6 py-4">Day</th><th class="px-6 py-4">Time</th></tr></thead>
                     <tbody id="timetable-body" class="divide-y divide-white/5">
-                        <tr class="glass-table-row" data-method="online"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 6</td><td class="px-6 py-4" data-label="Mode"><span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs">Online</span></td><td class="px-6 py-4" data-label="Day">Saturday</td><td class="px-6 py-4 text-white" data-label="Time">8:00 AM - 10:00 AM</td></tr>
-                        <tr class="glass-table-row" data-method="online"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 7</td><td class="px-6 py-4" data-label="Mode"><span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs">Online</span></td><td class="px-6 py-4" data-label="Day">Saturday</td><td class="px-6 py-4 text-white" data-label="Time">10:30 AM - 12:30 PM</td></tr>
-                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 8</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">Physical</span></td><td class="px-6 py-4" data-label="Day">Sunday</td><td class="px-6 py-4 text-white" data-label="Time">8:00 AM - 10:30 AM</td></tr>
-                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 9</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">Physical</span></td><td class="px-6 py-4" data-label="Day">Sunday</td><td class="px-6 py-4 text-white" data-label="Time">11:00 AM - 1:30 PM</td></tr>
-                        <tr class="glass-table-row" data-method="online"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10</td><td class="px-6 py-4" data-label="Mode"><span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs">Online</span></td><td class="px-6 py-4" data-label="Day">Monday</td><td class="px-6 py-4 text-white" data-label="Time">3:00 PM - 5:30 PM</td></tr>
-                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">Physical</span></td><td class="px-6 py-4" data-label="Day">Friday</td><td class="px-6 py-4 text-white" data-label="Time">2:30 PM - 5:00 PM</td></tr>
-                        <tr class="glass-table-row" data-method="paper"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 11</td><td class="px-6 py-4" data-label="Mode"><span class="bg-green-500/20 text-green-300 border border-green-500/30 px-3 py-1 rounded-full text-xs">Paper Class</span></td><td class="px-6 py-4" data-label="Day">Wednesday</td><td class="px-6 py-4 text-white" data-label="Time">6:00 PM - 8:00 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 6</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Tuesday</td><td class="px-6 py-4 text-white" data-label="Time">2:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 7 (Group 01)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Monday</td><td class="px-6 py-4 text-white" data-label="Time">3:00 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 7 (Group 02)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Saturday</td><td class="px-6 py-4 text-white" data-label="Time">4:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 8</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Thursday</td><td class="px-6 py-4 text-white" data-label="Time">2:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 9 (Group 01)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Sunday</td><td class="px-6 py-4 text-white" data-label="Time">3:00 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 9 (Group 02)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Friday</td><td class="px-6 py-4 text-white" data-label="Time">4:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10(Group 01)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Sunday</td><td class="px-6 py-4 text-white" data-label="Time">1:00 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10 (Group 02)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Monday</td><td class="px-6 py-4 text-white" data-label="Time">4:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="physical"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10 (Group 03)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full text-xs">physical</span></td><td class="px-6 py-4" data-label="Day">Tuesday</td><td class="px-6 py-4 text-white" data-label="Time">4:30 PM</td></tr>
+                        <tr class="glass-table-row" data-method="online"><td class="px-6 py-4 font-bold text-white" data-label="Grade">Grade 10 (Paper Class)</td><td class="px-6 py-4" data-label="Mode"><span class="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-xs">Online</span></td><td class="px-6 py-4" data-label="Day">Wednesday</td><td class="px-6 py-4 text-white" data-label="Time">4:30 PM</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -348,9 +334,9 @@
     </div>
 
     <div id="zone-bio" class="relative">
-        <div class="video-bg-wrapper"><video autoplay loop muted playsinline><source src="assets/videos/bio-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
+        <div class="video-bg-wrapper"><video autoplay muted playsinline><source src="assets/videos/bio-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
         
-     <header class="relative min-h-screen flex items-center pt-24 md:pt-32 pb-40 md:pb-60 overflow-hidden">
+        <header class="relative min-h-screen flex items-center pt-24 md:pt-32 pb-80 md:pb-60 overflow-hidden">
             <div class="container mx-auto px-6 relative z-20 h-full flex items-center">
                 <div class="text-center md:text-left w-full md:w-1/2" data-aos="fade-right" data-aos-duration="1200">
                     <div class="inline-flex items-center gap-2 liquid-glass px-5 py-2 rounded-full mb-8 border-cyan-500/30">
@@ -362,6 +348,9 @@
                         <span class="font-serif text-slate-100">තිලක්</span> <br/>
                         <span class="font-serif text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-pulse-slow">ජයසිංහ</span>
                     </h1>
+                    <h2 class="text-2xl md:text-3xl text-yellow-400 font-bold mb-6 -mt-2 font-serif tracking-wide drop-shadow-lg flex items-center gap-3 md:justify-start justify-center" data-aos="fade-right" data-aos-delay="100">
+                        <i class="fas fa-certificate text-xl"></i> රාජ්‍ය ගුරු සේවය
+                    </h2>
                     
                     <p class="text-base md:text-lg text-slate-300 mb-10 leading-relaxed max-w-lg mx-auto md:mx-0 font-light">
                         දශක තුනක අත්දැකීම් සමගින්, විද්‍යාව විෂයට <span class="text-cyan-400 font-bold">A සාමාර්ථයක්</span> සහතික කරන එකම පන්තිය.
@@ -370,6 +359,18 @@
                     <div class="flex flex-col sm:flex-row gap-5 justify-center md:justify-start">
                         <button onclick="openTimeTable(this)" class="bg-white text-blue-950 px-8 py-4 rounded-full font-bold shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:shadow-[0_0_50px_rgba(255,255,255,0.7)] hover:-translate-y-1 transition duration-300">Time Table</button>
                         <button id="hero-reg-btn" onclick="openModal(document.getElementById('nav-register-btn'))" class="liquid-glass text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 hover:-translate-y-1 transition duration-300 border-white/20">Enroll Now</button>
+                    </div>
+
+                    <div class="mt-8 flex justify-center md:justify-start" data-aos="fade-up" data-aos-delay="100">
+                        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="group flex items-center gap-3 transition-all duration-300 hover:translate-x-2">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 group-hover:bg-cyan-500 group-hover:border-cyan-500 transition duration-300 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                                <i class="fas fa-play text-cyan-300 group-hover:text-white text-sm ml-1"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-cyan-300 text-sm md:text-base font-bold group-hover:text-white transition">පන්ති වලට සම්බන්ධ වන ආකාරය</p>
+                                <p class="text-slate-500 text-[10px] uppercase tracking-widest group-hover:text-cyan-200/70 transition">Watch Video Guide</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -393,8 +394,8 @@
     </div>
 
     <div id="zone-chem" class="relative">
-        <div class="video-bg-wrapper"><video autoplay loop muted playsinline loading="lazy"><source src="assets/videos/chem-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
-        <section id="about" class="py-32 relative z-10">
+        <div class="video-bg-wrapper"><video autoplay muted playsinline loading="lazy"><source src="assets/videos/chem-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
+        <section id="about" class="py-20 md:py-32 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center gap-24">
                     <div class="md:w-1/2 relative group" data-aos="zoom-in-right" data-aos-duration="1000">
@@ -416,22 +417,46 @@
             </div>
         </section>
 
-        <section id="intro-video" class="pb-40 relative z-10" data-aos="fade-up" data-aos-duration="1000">
-            <div class="container mx-auto px-6 max-w-5xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">පන්ති කාමරයෙන් බිඳක්</h2>
-                    <div class="w-32 h-1.5 bg-gradient-to-r from-blue-600 to-cyan-400 mx-auto rounded-full"></div>
+    
+
+        <section id="guest-lessons" class="pb-24 md:pb-32 relative z-10">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span class="text-cyan-400 font-bold tracking-widest text-xs uppercase">Free Study Material</span>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 mb-4">නොමිලේ නැරඹිය හැකි පාඩම්</h2>
+                    <div class="w-24 h-1.5 bg-gradient-to-r from-blue-600 to-cyan-400 mx-auto rounded-full"></div>
                 </div>
-                <div class="liquid-glass p-3 md:p-4 rounded-[2.5rem] border border-cyan-500/30 shadow-[0_0_80px_rgba(6,182,212,0.2)] transform hover:scale-[1.01] transition duration-700">
-                    <div class="rounded-[2.2rem] overflow-hidden bg-black relative shadow-inner">
-                        <video controls playsinline preload="metadata" class="w-full h-auto block" poster="assets/images/video-thumbnail.jpg"> 
-                            <source src="assets/videos/intro.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto">
+                    <div class="liquid-glass p-6 rounded-[2rem] border border-white/10 hover:-translate-y-2 transition duration-500 group shadow-[0_0_50px_rgba(6,182,212,0.1)]" data-aos="fade-up" data-aos-delay="100">
+                        <div class="video-container mb-6 shadow-2xl rounded-2xl overflow-hidden border border-white/5">
+                            <iframe src="https://www.youtube.com/embed/14gwdGYq0J8?si=8rUqzNbv88eOm3Vi"  title="Lesson 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-full bg-red-600/90 flex items-center justify-center text-white shadow-[0_0_20px_rgba(220,38,38,0.5)] group-hover:scale-110 transition duration-300">
+                                <i class="fas fa-play text-xl pl-1"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-cyan-300 transition">Grade 10 Online Class</h3>
+                                <p class="text-slate-400 text-sm mt-1">Grade 10 - Physics</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center mt-8">
-                    <p class="text-cyan-200/60 text-xs tracking-[0.3em] uppercase font-bold">Practical Science Education</p>
+
+                    <div class="liquid-glass p-6 rounded-[2rem] border border-white/10 hover:-translate-y-2 transition duration-500 group shadow-[0_0_50px_rgba(6,182,212,0.1)]" data-aos="fade-up" data-aos-delay="200">
+                        <div class="video-container mb-6 shadow-2xl rounded-2xl overflow-hidden border border-white/5">
+                            <iframe src="https://www.youtube.com/embed/MNp1j6VDrmU" title="Lesson 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 rounded-full bg-red-600/90 flex items-center justify-center text-white shadow-[0_0_20px_rgba(220,38,38,0.5)] group-hover:scale-110 transition duration-300">
+                                <i class="fas fa-play text-xl pl-1"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white group-hover:text-cyan-300 transition">Grade 10 - විද්‍යුතය</h3>
+                                <p class="text-slate-400 text-sm mt-1">Grade 10</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -448,20 +473,20 @@
             <div class="grid md:grid-cols-2 gap-10">
                 <div class="liquid-glass p-5 rounded-[2rem] hover:-translate-y-2 transition duration-500 border-t border-white/20" data-aos="fade-up" data-aos-delay="100">
                     <div class="video-container mb-6 shadow-2xl">
-                        <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/8rwxJAh2F-k" title="Human Digestive System- Part 01" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg"><i class="fas fa-play"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Chemical Bonding Basics</h3>
+                        <h3 class="text-2xl font-bold text-white">Human Digestive System- part 01</h3>
                     </div>
                 </div>
                 <div class="liquid-glass p-5 rounded-[2rem] hover:-translate-y-2 transition duration-500 border-t border-white/20" data-aos="fade-up" data-aos-delay="200">
                     <div class="video-container mb-6 shadow-2xl">
-                        <iframe src="https://www.youtube.com/embed/3k0j0h4f8gM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/7LLGTfizGz4" title="Paper Class Grade 10" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" title="Human Digestive System-Part 02" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg"><i class="fas fa-play"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Motion & Force</h3>
+                        <h3 class="text-2xl font-bold text-white">Paper Class Grade 10</h3>
                     </div>
                 </div>
             </div>
@@ -508,8 +533,8 @@
     </section>
 
     <div id="zone-phy" class="relative">
-        <div class="video-bg-wrapper"><video autoplay loop muted playsinline loading="lazy"><source src="assets/videos/phy-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
-        <section id="classes" class="py-32 relative z-10">
+        <div class="video-bg-wrapper"><video autoplay muted playsinline loading="lazy"><source src="assets/videos/phy-bg.mp4" type="video/mp4"></video><div class="video-overlay"></div></div>
+        <section id="classes" class="py-20 md:py-32 relative z-10">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-24" data-aos="fade-up">
                     <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">අපගේ පාඨමාලා</h2>
@@ -523,7 +548,7 @@
                         </div>
                         <h3 class="text-3xl font-bold mb-4 text-white">6 - 11 ශ්‍රේණි</h3>
                         <p class="text-slate-300 mb-10 leading-relaxed font-light">පාසල් විෂය නිර්දේශය ආවරණය කරමින්, විද්‍යාත්මක සංකල්ප සරලව සහ රසවත්ව ඉගැන්වීම.</p>
-                        <button onclick="openModal(this)" class="inline-flex items-center text-cyan-300 font-bold hover:gap-3 transition-all tracking-wide">Enroll Now <i class="fas fa-arrow-right ml-2 text-sm"></i></button>
+                        <button onclick="openModal(this)" class="inline-flex items-center text-cyan-300 font-bold hover:gap-3 transition-all tracking-wide">පන්තියට සම්බන්ධ වන්න. <i class="fas fa-arrow-right ml-2 text-sm"></i></button>
                     </div>
 
                     <div class="liquid-glass rounded-[2.5rem] p-10 transform md:-translate-y-8 relative overflow-hidden group border-cyan-500/30 shadow-[0_0_60px_rgba(6,182,212,0.15)] bg-gradient-to-b from-white/5 to-transparent" data-aos="fade-up" data-aos-delay="150">
@@ -534,7 +559,7 @@
                             </div>
                             <h3 class="text-3xl font-bold mb-4 text-white">ONLINE Classes (Theory)</h3>
                             <p class="text-slate-200 mb-10 leading-relaxed font-light">මුළු දිවයිනම ආවරණය වන පරිදි, Zoom තාක්ෂණය ඔස්සේ නිවසේ සිටම සම්බන්ධ වන්න.</p>
-                            <button onclick="openModal(this, 'online')" class="inline-block w-full py-4 rounded-2xl bg-white text-blue-950 font-bold text-center hover:bg-cyan-50 transition shadow-lg hover:shadow-cyan-500/20">Register Now</button>
+                            <button onclick="openModal(this, 'online')" class="inline-block w-full py-4 rounded-2xl bg-white text-blue-950 font-bold text-center hover:bg-cyan-50 transition shadow-lg hover:shadow-cyan-500/20">පන්තියට සම්බන්ධ වන්න.</button>
                         </div>
                     </div>
 
@@ -544,7 +569,7 @@
                         </div>
                         <h3 class="text-3xl font-bold mb-4 text-white">Paper class (Online)</h3>
                         <p class="text-slate-300 mb-10 leading-relaxed font-light">පසුගිය විභාග ප්‍රශ්න පත්‍ර සාකච්ඡාව, ආදර්ශ ප්‍රශ්න පත්‍ර සහ කාල කළමනාකරණය.</p>
-                        <button onclick="openModal(this)" class="inline-flex items-center text-cyan-300 font-bold hover:gap-3 transition-all tracking-wide">Enroll Now <i class="fas fa-arrow-right ml-2 text-sm"></i></button>
+                        <button onclick="openModal(this, 'online')" class="inline-block w-full py-4 rounded-2xl bg-white text-blue-950 font-bold text-center hover:bg-cyan-50 transition shadow-lg hover:shadow-cyan-500/20">පන්තියට සම්බන්ධ වන්න.</button>
                     </div>
 
                 </div>
@@ -556,12 +581,21 @@
                     <h2 class="text-3xl font-bold text-white tracking-tight">තිලක් ජයසිංහ</h2>
                     <p class="text-slate-500 text-sm mt-2 tracking-widest uppercase">Premium Science Education (6-11)</p>
                 </div>
-                <div class="flex gap-6">
-                    <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-500 hover:-translate-y-1 transition duration-300"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white hover:border-red-500 hover:-translate-y-1 transition duration-300"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-green-600 hover:text-white hover:border-green-500 hover:-translate-y-1 transition duration-300"><i class="fab fa-whatsapp"></i></a>
+                <div class="flex gap-4 md:gap-6">
+                    <a href="https://www.facebook.com/share/1AD33YPyyY/" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-500 hover:-translate-y-1 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://youtube.com/@thilakjayasinghe3043?si=c7ogs5fHe5zdk9dq" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-red-600 hover:text-white hover:border-red-500 hover:-translate-y-1 transition duration-300">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://wa.me/94779206009" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-green-600 hover:text-white hover:border-green-500 hover:-translate-y-1 transition duration-300">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@thilak_jayasinghe?is_from_webapp=1&sender_device=pc" target="_blank" class="w-12 h-12 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-pink-600 hover:text-white hover:border-pink-500 hover:-translate-y-1 transition duration-300">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
                 </div>
-                <p class="text-slate-600 text-sm">&copy; 2025 Thilak Jayasinghe. All Rights Reserved.</p>
+                <p class="text-slate-600 text-sm">© 2025 Thilak Jayasinghe. All Rights Reserved.</p>
             </div>
         </footer>
     </div>
@@ -571,11 +605,12 @@
         AOS.init({ once: true, offset: 50, duration: 800, easing: 'ease-out-cubic' });
     </script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
 
-        // --- 1. FIREBASE CONFIG ---
+    <script>
+        // --- 1. FIREBASE CONFIG & INIT ---
         const firebaseConfig = {
             apiKey: "AIzaSyBLdOjUVHrOMh1RCMl_mOViSkHABH-Rmb8",
             authDomain: "thilak-jayasinghe-science.firebaseapp.com",
@@ -585,9 +620,9 @@
             appId: "1:821871741202:web:d30b27fd6db48fc4998bcb",
             measurementId: "G-MYGJ4D9QZB"
         };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const analytics = firebase.analytics(); // Analytics initialized
 
         // --- 2. CONFIG DATA ---
         const groupLinks = {
@@ -596,413 +631,23 @@
             "8": { "online": "https://chat.whatsapp.com/G8_ON", "physical": "https://chat.whatsapp.com/G8_PHY" },
             "9": { "online": "https://chat.whatsapp.com/G9_ON", "physical": "https://chat.whatsapp.com/G9_PHY" },
             "10": { "online": "https://chat.whatsapp.com/G10_ON", "physical": "https://chat.whatsapp.com/G10_PHY" },
-            "11": { "online": "https://chat.whatsapp.com/G11_ON", "physical": "https://chat.whatsapp.com/G11_PHY" }
+            "11": { "online": "https://chat.whatsapp.com/G11_ON", "physical": "https://chat.whatsapp.com/EgJJpy8pVMvK6iry9Syev2" }
         };
 
         let pendingLink = ""; 
         let activeAnnouncements = [];
 
-        // --- 3. ANNOUNCEMENT SYSTEM LOGIC ---
-        
-        // Listen for all active announcements in real-time
-        const announceCollection = collection(db, "announcements");
-        const q = query(announceCollection); // You can add orderBy('date', 'desc') here if you index it
-
-        onSnapshot(q, (snapshot) => {
-            activeAnnouncements = [];
-            snapshot.forEach(doc => {
-                activeAnnouncements.push({ id: doc.id, ...doc.data() });
-            });
-
-            // Sort manually to be safe (Newest First)
-            activeAnnouncements.sort((a, b) => {
-                const dateA = a.date?.toDate ? a.date.toDate() : new Date(0);
-                const dateB = b.date?.toDate ? b.date.toDate() : new Date(0);
-                return dateB - dateA; 
-            });
-
-            if (activeAnnouncements.length > 0) {
-                // 1. Activate Blinking Dots
-                document.getElementById('nav-announce-btn').classList.remove('hidden');
-                document.getElementById('announce-dot').classList.remove('hidden');
-                document.getElementById('mobile-announce-btn').classList.remove('hidden');
-                document.getElementById('mobile-announce-dot').classList.remove('hidden');
-
-                // 2. Auto-Popup Logic (Check newest only)
-                const userRole = JSON.parse(localStorage.getItem('user'))?.role;
-                const newestId = activeAnnouncements[0].id;
-                
-                if (userRole !== 'admin' && !sessionStorage.getItem('seen_announce_' + newestId)) {
-                    // Update Guest UI before showing
-                    updateGuestAnnouncementList();
-                    
-                    // Trigger Modal
-                    const overlay = document.getElementById('announce-overlay');
-                    const content = document.getElementById('announce-content');
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => {
-                        overlay.classList.remove('opacity-0');
-                        content.classList.remove('scale-90', 'opacity-0');
-                        content.classList.add('scale-100', 'opacity-100');
-                    }, 500);
-
-                    // Mark newest as seen
-                    sessionStorage.setItem('seen_announce_' + newestId, 'true');
-                }
-
-                // If Admin Panel is open, refresh
-                if(document.getElementById('admin-announce-overlay').classList.contains('hidden') === false) {
-                    renderAdminList();
-                }
-
-            } else {
-                // No Active Announcements
-                document.getElementById('announce-dot').classList.add('hidden');
-                document.getElementById('mobile-announce-dot').classList.add('hidden');
-                
-                // Hide button for guests
-                const user = JSON.parse(localStorage.getItem('user'));
-                if (!user || user.role !== 'admin') {
-                    document.getElementById('nav-announce-btn').classList.add('hidden');
-                    document.getElementById('mobile-announce-btn').classList.add('hidden');
-                }
-
-                if(document.getElementById('admin-announce-overlay').classList.contains('hidden') === false) {
-                    renderAdminList();
-                }
+        // --- 3. UI HELPERS (Defined First) ---
+        function safeToggle(id, show) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (show) el.classList.remove('hidden');
+                else el.classList.add('hidden');
             }
-        });
-
-        // Global functions
-        window.openAnnouncement = function() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            
-            // ADMIN LOGIC
-            if (user && user.role === 'admin') {
-                const overlay = document.getElementById('admin-announce-overlay');
-                const content = document.getElementById('admin-announce-content');
-                overlay.classList.remove('hidden');
-                setTimeout(() => {
-                    overlay.classList.remove('opacity-0');
-                    content.classList.remove('scale-90', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100');
-                }, 10);
-                renderAdminList();
-            } 
-            // GUEST LOGIC
-            else if (activeAnnouncements.length > 0) {
-                updateGuestAnnouncementList();
-                const overlay = document.getElementById('announce-overlay');
-                const content = document.getElementById('announce-content');
-                overlay.classList.remove('hidden');
-                setTimeout(() => {
-                    overlay.classList.remove('opacity-0');
-                    content.classList.remove('scale-90', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100');
-                }, 10);
-            }
-        };
-
-        function updateGuestAnnouncementList() {
-            const container = document.getElementById('announce-list-container');
-            let html = "";
-            activeAnnouncements.forEach(item => {
-                const date = item.date?.toDate ? item.date.toDate().toLocaleDateString() : "New";
-                html += `
-                    <div class="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-red-500/30 transition">
-                        <p class="text-slate-200 text-sm font-medium leading-relaxed mb-2">${item.text}</p>
-                        <p class="text-[10px] text-slate-500 font-mono uppercase tracking-widest text-right">${date}</p>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
         }
-
-        window.closeAnnouncement = function() {
-            const overlay = document.getElementById('announce-overlay');
-            const content = document.getElementById('announce-content');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-90', 'opacity-0');
-            overlay.classList.add('opacity-0');
-            setTimeout(() => overlay.classList.add('hidden'), 300);
-        };
-
-        window.closeAdminAnnouncement = function() {
-            const overlay = document.getElementById('admin-announce-overlay');
-            const content = document.getElementById('admin-announce-content');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-90', 'opacity-0');
-            overlay.classList.add('opacity-0');
-            setTimeout(() => overlay.classList.add('hidden'), 300);
-        };
-
-        window.publishAnnouncement = async function() {
-            const text = document.getElementById('new-announce-text').value.trim();
-            if (!text) return alert("Please type a message.");
-
-            try {
-                // Just ADD, don't delete old ones
-                await addDoc(collection(db, "announcements"), {
-                    text: text,
-                    date: new Date()
-                });
-                document.getElementById('new-announce-text').value = "";
-                alert("Announcement Published!");
-            } catch (e) {
-                console.error(e);
-                alert("Error publishing.");
-            }
-        };
-
-        window.deleteAnnouncement = async function(id) {
-            if(confirm("Delete this announcement?")) {
-                await deleteDoc(doc(db, "announcements", id));
-            }
-        };
-
-        function renderAdminList() {
-            const container = document.getElementById('active-announce-list');
-            if (activeAnnouncements.length === 0) {
-                container.innerHTML = '<p class="text-slate-500 text-sm text-center">No active announcements.</p>';
-                return;
-            }
-            let html = "";
-            activeAnnouncements.forEach(item => {
-                const date = item.date?.toDate ? item.date.toDate().toLocaleDateString() : "-";
-                html += `
-                    <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex justify-between items-center gap-4">
-                        <div class="overflow-hidden">
-                            <div class="text-sm text-slate-300 font-medium truncate">${item.text}</div>
-                            <div class="text-[10px] text-slate-500 font-mono mt-1">${date}</div>
-                        </div>
-                        <button onclick="deleteAnnouncement('${item.id}')" class="text-red-400 hover:text-white hover:bg-red-500 px-3 py-2 border border-red-500/30 rounded-lg transition text-xs font-bold shrink-0">DELETE</button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        // --- 4. EXISTING LOGIC (Registration, Login, Data) ---
-        window.handleRegistration = async function(event) {
-            event.preventDefault();
-            const btn = document.getElementById('reg-submit-btn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'; 
-            btn.disabled = true;
-
-            const name = document.getElementById('reg-name').value.trim();
-            const whatsapp = document.getElementById('reg-whatsapp').value.trim().replace(/\s/g, ''); 
-            const grade = document.getElementById('reg-grade').value;
-            const method = document.getElementById('reg-method').value;
-
-            const username = whatsapp + grade; 
-            
-            let password = username;
-            if (username.length >= 4) {
-                password = username.substring(0, 2) + username.substring(username.length - 2);
-            }
-
-            try {
-                const studentRef = doc(db, "students", username);
-                const docSnap = await getDoc(studentRef);
-
-                if (docSnap.exists()) {
-                    alert("This phone number is ALREADY registered for Grade " + grade + ".\nPlease Log In instead.");
-                    btn.innerText = "Register Now"; btn.disabled = false;
-                    return;
-                }
-
-                await setDoc(studentRef, {
-                    name, whatsapp, grade, method, username, password, createdAt: new Date()
-                });
-
-                document.getElementById('cred-username').innerText = username;
-                document.getElementById('cred-password').innerText = password;
-
-                pendingLink = groupLinks[grade] ? groupLinks[grade][method] : "";
-
-                window.closeModal();
-                setTimeout(() => {
-                    const overlay = document.getElementById('cred-overlay');
-                    const content = document.getElementById('cred-content');
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => {
-                        overlay.classList.remove('opacity-0');
-                        content.classList.remove('scale-90', 'opacity-0');
-                        content.classList.add('scale-100', 'opacity-100');
-                    }, 50);
-                }, 300);
-            } catch (e) {
-                alert("Error saving data: " + e.message);
-            } finally {
-                btn.innerText = "Register Now"; btn.disabled = false;
-            }
-        };
-
-        window.handleLogin = async function(event) {
-            event.preventDefault();
-            const btn = document.getElementById('login-submit-btn');
-            const userIn = document.getElementById('login-username').value.trim();
-            const passIn = document.getElementById('login-password').value.trim();
-
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-
-            // ADMIN CHECK
-            if (userIn === "0718046043" && passIn === "1970") {
-                const adminData = { name: "Thilak Jayasinghe", role: "admin" };
-                localStorage.setItem('user', JSON.stringify(adminData));
-                window.loginSuccess(adminData);
-                window.closeLogin();
-                btn.innerText = "Login Securely";
-                return;
-            }
-
-            // STUDENT CHECK
-            try {
-                const docSnap = await getDoc(doc(db, "students", userIn));
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (data.password === passIn) {
-                        const userData = { 
-                            name: data.name, 
-                            username: data.username,
-                            grade: data.grade,    
-                            method: data.method,
-                            role: "student"
-                        };
-                        localStorage.setItem('user', JSON.stringify(userData));
-                        window.loginSuccess(userData);
-                        window.closeLogin();
-                    } else {
-                        alert("Incorrect Password.");
-                    }
-                } else {
-                    alert("User not found.");
-                }
-            } catch (e) {
-                alert("Error logging in: " + e.message);
-            } finally {
-                btn.innerText = "Login Securely";
-            }
-        };
-
-        window.loadAdminData = async function() {
-            const tableBody = document.getElementById('student-table-body');
-            const countLabel = document.getElementById('student-count');
-            
-            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-12 text-slate-500"><i class="fas fa-spinner fa-spin text-2xl mb-2 text-cyan-500"></i><br>Loading Database...</td></tr>';
-            
-            try {
-                const querySnapshot = await getDocs(collection(db, "students"));
-                let html = "";
-                let count = 0;
-                
-                querySnapshot.forEach((docSnap) => {
-                    const s = docSnap.data();
-                    const joined = s.createdAt && s.createdAt.toDate ? s.createdAt.toDate().toLocaleDateString() : "N/A";
-                    const docId = docSnap.id; 
-
-                    html += `
-                        <tr class="glass-table-row hover:bg-white/5 transition duration-300">
-                            <td class="px-6 py-4 font-bold text-white">${s.name}</td>
-                            <td class="px-6 py-4 font-mono text-cyan-300">${s.whatsapp}</td>
-                            <td class="px-6 py-4"><span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-xs font-bold text-slate-300">Grade ${s.grade}</span></td>
-                            <td class="px-6 py-4 capitalize text-slate-300">${s.method}</td>
-                            <td class="px-6 py-4 text-xs text-slate-500 font-mono">${joined}</td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="deleteStudent('${docId}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2.5 rounded-xl transition duration-300 shadow-lg" title="Remove Student">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                    count++;
-                });
-
-                const thead = document.querySelector('#teacher-zone table thead tr');
-                if (thead.children.length === 5) {
-                   thead.innerHTML += '<th class="px-6 py-5 rounded-r-xl text-center">Action</th>';
-                }
-
-                tableBody.innerHTML = html || '<tr><td colspan="6" class="text-center py-12 text-slate-500">No students found.</td></tr>';
-                countLabel.innerText = "Total Records: " + count;
-
-            } catch (e) {
-                console.error(e);
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-12 text-red-400">Error loading data.</td></tr>';
-            }
-        };
-
-        window.deleteStudent = async function(docId) {
-            if (!confirm("Are you sure you want to delete this student?\nThis action cannot be undone.")) {
-                return;
-            }
-
-            try {
-                await deleteDoc(doc(db, "students", docId));
-                alert("Student removed successfully.");
-                window.loadAdminData();
-            } catch (e) {
-                console.error("Error removing document: ", e);
-                alert("Error removing student: " + e.message);
-            }
-        };
-
-        window.finalizeRegistration = function() {
-            if (pendingLink && pendingLink.startsWith("http")) window.open(pendingLink, '_blank');
-            else alert("Group link not configured.");
-            
-            document.getElementById('cred-overlay').classList.add('opacity-0');
-            setTimeout(() => document.getElementById('cred-overlay').classList.add('hidden'), 300);
-        };
-
-        window.globalGroupLinks = groupLinks;
-    </script>
-    <script>
-        const statsSection = document.querySelector('#stats-section');
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalContent = document.getElementById('modal-content');
-        const methodSection = document.getElementById('method-section');
-        const methodDropdown = document.getElementById('reg-method');
-        const credOverlay = document.getElementById('cred-overlay');
-        const credContent = document.getElementById('cred-content');
-        const loginOverlay = document.getElementById('login-overlay');
-        const loginContent = document.getElementById('login-content');
-        const timetableOverlay = document.getElementById('timetable-overlay');
-        const timetableContent = document.getElementById('timetable-content');
-        const contactOverlay = document.getElementById('contact-overlay');
-        const contactContent = document.getElementById('contact-content');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        // New Overlays
-        const announceOverlay = document.getElementById('announce-overlay');
-        const adminAnnounceOverlay = document.getElementById('admin-announce-overlay');
-
-        // Navigation UI Logic
-        const navLoginBtn = document.getElementById('nav-login-btn');
-        const navUserProfile = document.getElementById('nav-user-profile');
-        const navRegContainer = document.getElementById('nav-reg-container');
-        const heroRegBtn = document.getElementById('hero-reg-btn');
-        const userNameDisplay = document.getElementById('user-name-display');
-        const studentZone = document.getElementById('student-zone');
-        const teacherZone = document.getElementById('teacher-zone');
-        const navAnnounceBtn = document.getElementById('nav-announce-btn');
-        
-        // Mobile UI Logic
-        const mobileLoginBtn = document.getElementById('mobile-login-btn');
-        const mobileRegBtn = document.getElementById('mobile-reg-btn');
-        const mobileUserProfile = document.getElementById('mobile-user-profile');
-        const mobileUserNameDisplay = document.getElementById('mobile-username-display');
-        const mobileAnnounceBtn = document.getElementById('mobile-announce-btn');
-
-        // Check Login State on Load
-        window.onload = function() {
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-                loginSuccess(JSON.parse(storedUser));
-            }
-        };
 
         function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenu.classList.contains('translate-x-full')) {
                 mobileMenu.classList.remove('hidden');
                 setTimeout(() => mobileMenu.classList.remove('translate-x-full'), 10);
@@ -1012,76 +657,6 @@
             }
         }
 
-        function loginSuccess(user) {
-            // Desktop UI Updates
-            navLoginBtn.classList.add('hidden'); 
-            navRegContainer.classList.add('hidden'); 
-            if(heroRegBtn) heroRegBtn.classList.add('hidden'); 
-            navUserProfile.classList.remove('hidden'); 
-            userNameDisplay.innerText = user.name.split(' ')[0]; 
-            
-            // Mobile UI Updates
-            mobileLoginBtn.classList.add('hidden');
-            mobileRegBtn.classList.add('hidden');
-            mobileUserProfile.classList.remove('hidden');
-            mobileUserNameDisplay.innerText = user.name.split(' ')[0];
-            
-            // ROLE BASED UI
-            if (user.role === 'admin') {
-                teacherZone.classList.remove('hidden');
-                studentZone.classList.add('hidden');
-                // Admin always sees announce button
-                navAnnounceBtn.classList.remove('hidden'); 
-                mobileAnnounceBtn.classList.remove('hidden');
-                document.getElementById('announce-dot-static').classList.remove('hidden');
-                document.getElementById('announce-dot').classList.add('hidden'); // No pulse for admin, just static indicator
-                
-                if (window.loadAdminData) window.loadAdminData();
-            } else {
-                studentZone.classList.remove('hidden');
-                teacherZone.classList.add('hidden');
-
-                if (user.grade && user.method && window.globalGroupLinks) {
-                    const link = window.globalGroupLinks[user.grade] ? window.globalGroupLinks[user.grade][user.method] : null;
-                    if (link) {
-                        const floatBtn = document.getElementById('floating-wa-btn');
-                        floatBtn.href = link; 
-                        floatBtn.classList.remove('hidden'); 
-                    }
-                }
-            }
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('user');
-            location.reload();
-        }
-
-        // --- Admin Search Logic ---
-        function handleSearch() {
-            const input = document.getElementById('admin-search');
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById('student-table-body');
-            const tr = table.getElementsByTagName('tr');
-
-            for (let i = 0; i < tr.length; i++) {
-                const tdName = tr[i].getElementsByTagName('td')[0];
-                const tdPhone = tr[i].getElementsByTagName('td')[1];
-                
-                if (tdName && tdPhone) {
-                    const txtName = tdName.textContent || tdName.innerText;
-                    const txtPhone = tdPhone.textContent || tdPhone.innerText;
-                    
-                    if (txtName.toUpperCase().indexOf(filter) > -1 || txtPhone.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }       
-            }
-        }
-
-        // --- Helpers ---
         function moveBubble(element) {
             const navContainer = document.getElementById('main-nav');
             const bubble = document.getElementById('nav-bubble');
@@ -1094,11 +669,11 @@
             element.classList.remove('text-slate-400'); element.classList.add('text-white');
         }
 
-        function animateModalOpen(element, btnElement) {
+        function animateModalOpen(element) {
+            if (!element) return;
             element.classList.remove('hidden');
             const content = element.querySelector('.modal-bubble') || element.querySelector('.liquid-glass'); 
             if(!content) return;
-            
             content.style.transformOrigin = 'center center';
             requestAnimationFrame(() => {
                 element.classList.remove('opacity-0');
@@ -1107,26 +682,8 @@
             });
         }
 
-        function openModal(btn, method = null) {
-            if (method === 'online') {
-                methodSection.classList.add('hidden');
-                methodDropdown.value = 'online';
-            } else {
-                methodSection.classList.remove('hidden');
-                methodDropdown.value = "";
-            }
-            animateModalOpen(modalOverlay, btn);
-        }
-
-        function closeModal() { closeAny(modalOverlay); }
-        function openLogin(btn) { animateModalOpen(loginOverlay, btn); }
-        function closeLogin() { closeAny(loginOverlay); }
-        function openTimeTable(btn) { animateModalOpen(timetableOverlay, btn); }
-        function closeTimeTable() { closeAny(timetableOverlay); }
-        function openContact() { animateModalOpen(contactOverlay); }
-        function closeContact() { closeAny(contactOverlay); }
-
         function closeAny(ov) {
+            if (!ov) return;
             ov.classList.add('opacity-0');
             const c = ov.querySelector('.modal-bubble') || ov.querySelector('.liquid-glass');
             if(c) {
@@ -1136,30 +693,258 @@
             setTimeout(() => ov.classList.add('hidden'), 300);
         }
 
-        function filterTimetable() {
+        // Attach to Window explicitly
+        window.openModal = function(btn, method = null) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const methodSection = document.getElementById('method-section');
+            const methodDropdown = document.getElementById('reg-method');
+            if (methodSection && methodDropdown) {
+                if (method === 'online') {
+                    methodSection.classList.add('hidden');
+                    methodDropdown.value = 'online';
+                } else {
+                    methodSection.classList.remove('hidden');
+                    methodDropdown.value = "";
+                }
+            }
+            animateModalOpen(modalOverlay);
+        };
+        window.closeModal = () => closeAny(document.getElementById('modal-overlay'));
+        window.openLogin = () => animateModalOpen(document.getElementById('login-overlay'));
+        window.closeLogin = () => closeAny(document.getElementById('login-overlay'));
+        window.openTimeTable = () => animateModalOpen(document.getElementById('timetable-overlay'));
+        window.closeTimeTable = () => closeAny(document.getElementById('timetable-overlay'));
+        window.openContact = () => animateModalOpen(document.getElementById('contact-overlay'));
+        window.closeContact = () => closeAny(document.getElementById('contact-overlay'));
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.moveBubble = moveBubble;
+
+        // --- 4. CORE LOGIC ---
+        function handleRegistration(event) {
+            event.preventDefault();
+            const btn = document.getElementById('reg-submit-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            const name = document.getElementById('reg-name').value.trim();
+            const whatsapp = document.getElementById('reg-whatsapp').value.trim().replace(/\s/g, ''); 
+            const grade = document.getElementById('reg-grade').value;
+            const method = document.getElementById('reg-method').value;
+            const username = whatsapp + grade; 
+            
+            let password = username;
+            if (username.length >= 4) {
+                password = username.substring(0, 2) + username.substring(username.length - 2);
+            }
+
+            const studentRef = db.collection("students").doc(username);
+            studentRef.get().then((docSnap) => {
+                if (docSnap.exists) {
+                    alert("This phone number is ALREADY registered for Grade " + grade + ".\nPlease Log In instead.");
+                    btn.innerText = "Register Now"; btn.disabled = false;
+                    return;
+                }
+                studentRef.set({
+                    name, whatsapp, grade, method, username, password, createdAt: new Date()
+                }).then(() => {
+                    document.getElementById('cred-username').innerText = username;
+                    document.getElementById('cred-password').innerText = password;
+                    pendingLink = groupLinks[grade] ? groupLinks[grade][method] : "";
+                    closeAny(document.getElementById('modal-overlay'));
+                    setTimeout(() => animateModalOpen(document.getElementById('cred-overlay')), 300);
+                }).catch(e => alert("Error saving data: " + e.message));
+            }).catch(e => alert("Error: " + e.message)).finally(() => {
+                 btn.innerText = "Register Now"; btn.disabled = false;
+            });
+        }
+        window.handleRegistration = handleRegistration;
+
+      // UPDATED LOGIN FUNCTION
+        function handleLogin(event) {
+            event.preventDefault();
+            const btn = document.getElementById('login-submit-btn');
+            const userIn = document.getElementById('login-username').value.trim();
+            const passIn = document.getElementById('login-password').value.trim();
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+            // 1. HARDCODED BACKUP ADMIN (Optional, you can remove this if you want)
+            if (userIn === "0718046043" && passIn === "1970") {
+                const adminData = { name: "Thilak Jayasinghe", role: "admin" };
+                localStorage.setItem('user', JSON.stringify(adminData));
+                loginSuccess(adminData);
+                closeAny(document.getElementById('login-overlay'));
+                btn.innerText = "Login Securely";
+                return;
+            }
+
+            // 2. FIREBASE AUTH ADMIN LOGIN (For the email you added)
+            firebase.auth().signInWithEmailAndPassword(userIn, passIn)
+                .then((userCredential) => {
+                    // Signed in via Firebase Auth -> Must be Admin
+                    const adminData = { name: "Thilak Jayasinghe", role: "admin", email: userIn };
+                    localStorage.setItem('user', JSON.stringify(adminData));
+                    loginSuccess(adminData);
+                    closeAny(document.getElementById('login-overlay'));
+                    btn.innerText = "Login Securely";
+                })
+                .catch((error) => {
+                    // If Auth fails (wrong password or not an admin email), try Student DB
+                    // 3. STUDENT DATABASE LOGIN
+                    db.collection("students").doc(userIn).get().then((docSnap) => {
+                        if (docSnap.exists) {
+                            const data = docSnap.data();
+                            if (data.password === passIn) {
+                                const userData = { 
+                                    name: data.name, username: data.username, grade: data.grade, method: data.method, role: "student"
+                                };
+                                localStorage.setItem('user', JSON.stringify(userData));
+                                loginSuccess(userData);
+                                closeAny(document.getElementById('login-overlay'));
+                            } else {
+                                alert("Incorrect Password.");
+                            }
+                        } else {
+                            // If not in Auth AND not in DB
+                            alert("Login failed: User not found or incorrect password.");
+                        }
+                    }).catch(e => alert("Error logging in: " + e.message)).finally(() => {
+                        btn.innerText = "Login Securely";
+                    });
+                });
+        }
+        window.handleLogin = handleLogin;
+
+        function loginSuccess(user) {
+            safeToggle('nav-login-btn', false);
+            safeToggle('nav-reg-container', false);
+            safeToggle('hero-reg-btn', false);
+            safeToggle('nav-user-profile', true);
+            const userNameDisplay = document.getElementById('user-name-display');
+            if(userNameDisplay) userNameDisplay.innerText = user.name.split(' ')[0];
+
+            safeToggle('mobile-login-btn', false);
+            safeToggle('mobile-reg-btn', false);
+            safeToggle('mobile-user-profile', true);
+            const mobileUserDisplay = document.getElementById('mobile-username-display');
+            if(mobileUserDisplay) mobileUserDisplay.innerText = user.name.split(' ')[0];
+
+            if (user.role === 'admin') {
+                safeToggle('teacher-zone', true);
+                safeToggle('student-zone', false);
+                loadAdminData();
+            } else {
+                safeToggle('student-zone', true);
+                safeToggle('teacher-zone', false);
+                if (user.grade && user.method && groupLinks[user.grade]) {
+                    const link = groupLinks[user.grade][user.method];
+                    if(link) {
+                        const btn = document.getElementById('floating-wa-btn');
+                        if (btn) {
+                            btn.href = link;
+                            btn.classList.remove('hidden');
+                        }
+                    }
+                }
+            }
+        }
+        
+        function handleLogout() { localStorage.removeItem('user'); location.reload(); }
+        window.handleLogout = handleLogout;
+
+        function finalizeRegistration() {
+            if (pendingLink && pendingLink.startsWith("http")) window.open(pendingLink, '_blank');
+            else alert("Group link not configured.");
+            closeAny(document.getElementById('cred-overlay'));
+        }
+        window.finalizeRegistration = finalizeRegistration;
+
+        function loadAdminData() {
+            const tableBody = document.getElementById('student-table-body');
+            const countLabel = document.getElementById('student-count');
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-12 text-slate-500"><i class="fas fa-spinner fa-spin text-2xl mb-2 text-cyan-500"></i><br>Loading Database...</td></tr>';
+            
+            db.collection("students").get().then((querySnapshot) => {
+                let html = "";
+                let count = 0;
+                querySnapshot.forEach((docSnap) => {
+                    const s = docSnap.data();
+                    const joined = s.createdAt && s.createdAt.toDate ? s.createdAt.toDate().toLocaleDateString() : "N/A";
+                    html += `
+                        <tr class="glass-table-row hover:bg-white/5 transition duration-300">
+                            <td class="px-6 py-4 font-bold text-white">${s.name}</td>
+                            <td class="px-6 py-4 font-mono text-cyan-300">${s.whatsapp}</td>
+                            <td class="px-6 py-4"><span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-full text-xs font-bold text-slate-300">Grade ${s.grade}</span></td>
+                            <td class="px-6 py-4 capitalize text-slate-300">${s.method}</td>
+                            <td class="px-6 py-4 text-xs text-slate-500 font-mono">${joined}</td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="deleteStudent('${docSnap.id}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2.5 rounded-xl transition duration-300 shadow-lg"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                    count++;
+                });
+                tableBody.innerHTML = html || '<tr><td colspan="6" class="text-center py-12 text-slate-500">No students found.</td></tr>';
+                countLabel.innerText = "Total Records: " + count;
+            }).catch(e => {
+                console.error(e);
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-12 text-red-400">Error loading data.</td></tr>';
+            });
+        }
+        window.deleteStudent = function(docId) {
+            if (!confirm("Delete this student?")) return;
+            db.collection("students").doc(docId).delete().then(() => {
+                alert("Deleted.");
+                loadAdminData();
+            }).catch(e => alert("Error: " + e.message));
+        };
+        window.handleSearch = function() {
+            const input = document.getElementById('admin-search');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('student-table-body');
+            const tr = table.getElementsByTagName('tr');
+            for (let i = 0; i < tr.length; i++) {
+                const tdName = tr[i].getElementsByTagName('td')[0];
+                const tdPhone = tr[i].getElementsByTagName('td')[1];
+                if (tdName && tdPhone) {
+                    const txtName = tdName.textContent || tdName.innerText;
+                    const txtPhone = tdPhone.textContent || tdPhone.innerText;
+                    if (txtName.toUpperCase().indexOf(filter) > -1 || txtPhone.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }        
+            }
+        };
+
+        window.filterTimetable = function() {
             const v = document.getElementById('timetable-filter').value;
             document.querySelectorAll('#timetable-body tr').forEach(r => {
                 const m = r.getAttribute('data-method');
                 if (v === 'all' || m === v) r.classList.remove('hidden-row');
                 else r.classList.add('hidden-row');
             });
-        }
+        };
 
-        [modalOverlay, credOverlay, loginOverlay, timetableOverlay, contactOverlay, announceOverlay, adminAnnounceOverlay].forEach(ov => {
+        // --- INIT ---
+        window.onload = function() {
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) loginSuccess(JSON.parse(storedUser));
+        };
+
+        ['modal-overlay', 'login-overlay', 'timetable-overlay', 'contact-overlay'].forEach(id => {
+            const ov = document.getElementById(id);
             if(ov) ov.addEventListener('click', (e) => { if(e.target===ov) closeAny(ov); });
         });
-
+        
+        const statsSection = document.querySelector('#stats-section');
         if (statsSection) {
             const obs = new IntersectionObserver((es) => {
                 if (es[0].isIntersecting) {
                     document.querySelectorAll('.counter').forEach(c => {
                         const t = +c.getAttribute('data-target');
                         let cur = 0;
-                        const upd = () => {
-                            cur += t / 100;
-                            if (cur < t) { c.innerText = Math.ceil(cur); requestAnimationFrame(upd); }
-                            else c.innerText = t;
-                        };
+                        const upd = () => { cur += t / 100; if (cur < t) { c.innerText = Math.ceil(cur); requestAnimationFrame(upd); } else c.innerText = t; };
                         upd();
                     });
                     obs.disconnect();

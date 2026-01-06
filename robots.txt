@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thilakjayasinghe.com/sitemap.xml
