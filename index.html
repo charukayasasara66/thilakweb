@@ -39,7 +39,7 @@
         }
     </script>
     <style>
-        /* FIX: Ensure consistent base styles across all devices */
+       
         html, body {
             width: 100%;
             overflow-x: hidden;
@@ -610,7 +610,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
 
     <script>
-        // --- 1. FIREBASE CONFIG & INIT ---
+       //firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyBLdOjUVHrOMh1RCMl_mOViSkHABH-Rmb8",
             authDomain: "thilak-jayasinghe-science.firebaseapp.com",
@@ -622,9 +622,9 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const analytics = firebase.analytics(); // Analytics initialized
+        const analytics = firebase.analytics(); 
 
-        // --- 2. CONFIG DATA ---
+        
         const groupLinks = {
             "6": { "online": "https://chat.whatsapp.com/G6_ON", "physical": "https://chat.whatsapp.com/G6_PHY" },
             "7": { "online": "https://chat.whatsapp.com/G7_ON", "physical": "https://chat.whatsapp.com/G7_PHY" },
@@ -637,7 +637,6 @@
         let pendingLink = ""; 
         let activeAnnouncements = [];
 
-        // --- 3. UI HELPERS (Defined First) ---
         function safeToggle(id, show) {
             const el = document.getElementById(id);
             if (el) {
@@ -693,7 +692,7 @@
             setTimeout(() => ov.classList.add('hidden'), 300);
         }
 
-        // Attach to Window explicitly
+
         window.openModal = function(btn, method = null) {
             const modalOverlay = document.getElementById('modal-overlay');
             const methodSection = document.getElementById('method-section');
@@ -719,7 +718,7 @@
         window.toggleMobileMenu = toggleMobileMenu;
         window.moveBubble = moveBubble;
 
-        // --- 4. CORE LOGIC ---
+   
         function handleRegistration(event) {
             event.preventDefault();
             const btn = document.getElementById('reg-submit-btn');
@@ -759,7 +758,7 @@
         }
         window.handleRegistration = handleRegistration;
 
-      // UPDATED LOGIN FUNCTION
+     
         function handleLogin(event) {
             event.preventDefault();
             const btn = document.getElementById('login-submit-btn');
@@ -767,7 +766,7 @@
             const passIn = document.getElementById('login-password').value.trim();
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
 
-            // 1. HARDCODED BACKUP ADMIN (Optional, you can remove this if you want)
+
             if (userIn === "0718046043" && passIn === "1970") {
                 const adminData = { name: "Thilak Jayasinghe", role: "admin" };
                 localStorage.setItem('user', JSON.stringify(adminData));
@@ -777,10 +776,10 @@
                 return;
             }
 
-            // 2. FIREBASE AUTH ADMIN LOGIN (For the email you added)
+         
             firebase.auth().signInWithEmailAndPassword(userIn, passIn)
                 .then((userCredential) => {
-                    // Signed in via Firebase Auth -> Must be Admin
+                 
                     const adminData = { name: "Thilak Jayasinghe", role: "admin", email: userIn };
                     localStorage.setItem('user', JSON.stringify(adminData));
                     loginSuccess(adminData);
@@ -788,8 +787,7 @@
                     btn.innerText = "Login Securely";
                 })
                 .catch((error) => {
-                    // If Auth fails (wrong password or not an admin email), try Student DB
-                    // 3. STUDENT DATABASE LOGIN
+              
                     db.collection("students").doc(userIn).get().then((docSnap) => {
                         if (docSnap.exists) {
                             const data = docSnap.data();
@@ -804,7 +802,7 @@
                                 alert("Incorrect Password.");
                             }
                         } else {
-                            // If not in Auth AND not in DB
+                     
                             alert("Login failed: User not found or incorrect password.");
                         }
                     }).catch(e => alert("Error logging in: " + e.message)).finally(() => {
@@ -926,7 +924,7 @@
             });
         };
 
-        // --- INIT ---
+    
         window.onload = function() {
             const storedUser = localStorage.getItem('user');
             if (storedUser) loginSuccess(JSON.parse(storedUser));
